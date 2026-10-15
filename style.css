@@ -1,0 +1,3966 @@
+/* =========================================================
+   CALLEJEROS WEB
+   STYLE.CSS
+========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+    --negro: #080808;
+    --negro-suave: #111111;
+    --rojo: #e3261a;
+    --rojo-oscuro: #9d120c;
+    --amarillo: #ffca28;
+    --naranja: #ff6b1a;
+    --blanco: #f5f2eb;
+    --gris: #a7a7a7;
+
+    --fuente-titulo: "Bebas Neue", sans-serif;
+    --fuente-texto: "Montserrat", sans-serif;
+
+    --transicion: 0.35s ease;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--negro);
+    color: var(--blanco);
+    font-family: var(--fuente-texto);
+    overflow-x: hidden;
+}
+
+body::selection {
+    background: var(--rojo);
+    color: white;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font-family: inherit;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--rojo);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--naranja);
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+#loader {
+    position: fixed;
+    inset: 0;
+    background: var(--negro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+
+    transition:
+        opacity 0.8s ease,
+        visibility 0.8s ease;
+}
+
+#loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-logo {
+    font-family: var(--fuente-titulo);
+    font-size: clamp(4rem, 10vw, 9rem);
+    letter-spacing: 5px;
+    color: var(--blanco);
+
+    animation: loaderPulse 1.5s infinite alternate;
+}
+
+.loader-line {
+    width: 220px;
+    height: 4px;
+    margin: 20px auto;
+    background: var(--rojo);
+    transform-origin: left;
+    animation: loaderLine 1.5s infinite;
+}
+
+.loader-content p {
+    color: var(--gris);
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+@keyframes loaderPulse {
+    from {
+        opacity: 0.45;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes loaderLine {
+    0% {
+        transform: scaleX(0);
+    }
+
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+.cursor,
+.cursor-follower {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 10000;
+    border-radius: 50%;
+}
+
+.cursor {
+    width: 7px;
+    height: 7px;
+    background: var(--amarillo);
+    transform: translate(-50%, -50%);
+}
+
+.cursor-follower {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 202, 40, 0.6);
+    transform: translate(-50%, -50%);
+    transition:
+        width 0.2s ease,
+        height 0.2s ease,
+        background 0.2s ease;
+}
+
+.cursor.active .cursor-follower {
+    width: 55px;
+    height: 55px;
+    background: rgba(227, 38, 26, 0.15);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    background: transparent;
+
+    transition:
+        background 0.4s ease,
+        backdrop-filter 0.4s ease;
+}
+
+#header.scrolled {
+    background: rgba(8, 8, 8, 0.92);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar {
+    width: min(1400px, 92%);
+    height: 85px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    font-family: var(--fuente-titulo);
+    font-size: 2rem;
+    letter-spacing: 2px;
+
+    transition: var(--transicion);
+}
+
+.nav-logo:hover {
+    color: var(--rojo);
+    transform: skew(-5deg);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+}
+
+.nav-menu a {
+    position: relative;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.nav-menu a::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+
+    width: 0;
+    height: 2px;
+
+    background: var(--rojo);
+
+    transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+}
+
+.menu-toggle span {
+    display: block;
+
+    width: 30px;
+    height: 2px;
+
+    background: white;
+
+    transition: 0.3s;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 0, 0, 0.9),
+            rgba(110, 10, 5, 0.55),
+            rgba(0, 0, 0, 0.95)
+        ),
+        url("img/callejeros-portada.jpg") center / cover;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(255, 95, 0, 0.25),
+            transparent 45%
+        );
+
+    animation: heroGlow 5s infinite alternate;
+}
+
+@keyframes heroGlow {
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.02) 0px,
+            rgba(255,255,255,0.02) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    width: min(1000px, 90%);
+
+    animation: heroEntrance 1.2s ease both;
+}
+
+@keyframes heroEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-subtitle {
+    margin-bottom: 15px;
+
+    color: var(--amarillo);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    letter-spacing: 6px;
+}
+
+.hero h1 {
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(6rem, 17vw, 15rem);
+
+    line-height: 0.8;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        7px 7px 0 var(--rojo),
+        13px 13px 0 rgba(0, 0, 0, 0.7);
+
+    transform: skew(-4deg);
+}
+
+.hero-description {
+    max-width: 600px;
+
+    margin: 35px auto;
+
+    color: #d8d8d8;
+
+    line-height: 1.8;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+.btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 190px;
+
+    padding: 15px 28px;
+
+    font-size: 0.75rem;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    border: 2px solid transparent;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-5px);
+}
+
+.btn-primary {
+    background: var(--rojo);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--naranja);
+}
+
+.btn-outline {
+    border-color: white;
+    color: white;
+}
+
+.btn-outline:hover {
+    background: white;
+    color: var(--negro);
+}
+
+
+/* =========================================================
+   HERO SCROLL
+========================================================= */
+
+.hero-scroll {
+    position: absolute;
+
+    bottom: 35px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    color: #aaa;
+
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+}
+
+.scroll-line {
+    width: 1px;
+    height: 60px;
+
+    background: linear-gradient(
+        white,
+        transparent
+    );
+
+    animation: scrollLine 1.5s infinite;
+}
+
+@keyframes scrollLine {
+    0% {
+        transform: scaleY(0);
+        transform-origin: top;
+    }
+
+    50% {
+        transform: scaleY(1);
+        transform-origin: top;
+    }
+
+    51% {
+        transform-origin: bottom;
+    }
+
+    100% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+}
+
+
+/* =========================================================
+   SECCIONES
+========================================================= */
+
+.section {
+    position: relative;
+
+    padding: 140px 6%;
+
+    overflow: hidden;
+}
+
+.section-header {
+    position: relative;
+
+    max-width: 900px;
+
+    margin: 0 auto 80px;
+
+    text-align: center;
+}
+
+.section-tag {
+    display: block;
+
+    margin-bottom: 15px;
+
+    color: var(--rojo);
+
+    font-size: 0.7rem;
+    font-weight: 800;
+
+    letter-spacing: 4px;
+}
+
+.section-header h2,
+.intro h2,
+.music-text h2,
+.don-text h2 {
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(4rem, 8vw, 8rem);
+
+    line-height: 0.85;
+
+    letter-spacing: 2px;
+}
+
+.section-header p {
+    max-width: 600px;
+
+    margin: 25px auto 0;
+
+    color: var(--gris);
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro {
+    min-height: 80vh;
+
+    display: flex;
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle at 80% 50%,
+            rgba(227, 38, 26, 0.2),
+            transparent 35%
+        ),
+        var(--negro-suave);
+}
+
+.section-number {
+    position: absolute;
+
+    top: 30px;
+    right: 5%;
+
+    font-family: var(--fuente-titulo);
+
+    font-size: 12rem;
+
+    color: rgba(255,255,255,0.025);
+
+    user-select: none;
+}
+
+.intro-content {
+    position: relative;
+
+    max-width: 850px;
+
+    margin-left: 10%;
+}
+
+.intro-content p {
+    max-width: 700px;
+
+    margin: 25px 0;
+
+    color: #c8c8c8;
+
+    line-height: 1.9;
+}
+
+.text-link {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    color: var(--amarillo);
+
+    font-size: 0.8rem;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    transition: var(--transicion);
+}
+
+.text-link:hover {
+    color: var(--rojo);
+    transform: translateX(10px);
+}
+
+
+/* =========================================================
+   BANDA
+========================================================= */
+
+.banda {
+    background: #0c0c0c;
+}
+
+.members-grid {
+    width: min(1400px, 100%);
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 15px;
+}
+
+.member-card {
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 450px;
+
+    background: #151515;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.5s ease,
+        box-shadow 0.5s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-15px) rotate(-1deg);
+
+    box-shadow:
+        0 25px 50px rgba(0,0,0,0.6),
+        0 0 30px rgba(227,38,26,0.15);
+}
+
+.member-image {
+    position: absolute;
+    inset: 0;
+}
+
+.member-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    filter: grayscale(100%);
+
+    transition:
+        transform 0.7s ease,
+        filter 0.7s ease;
+}
+
+.member-card:hover .member-image img {
+    transform: scale(1.08);
+    filter: grayscale(0%);
+}
+
+.member-image::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            transparent 30%,
+            rgba(0,0,0,0.95)
+        );
+}
+
+.member-info {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+
+    padding: 30px 20px;
+
+    z-index: 2;
+}
+
+.member-info span {
+    color: var(--amarillo);
+
+    font-size: 0.65rem;
+    font-weight: 800;
+
+    letter-spacing: 3px;
+}
+
+.member-info h3 {
+    margin-top: 8px;
+
+    font-family: var(--fuente-titulo);
+
+    font-size: 2rem;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   DISCOGRAFÍA
+========================================================= */
+
+.discografia {
+    background:
+        linear-gradient(
+            135deg,
+            #111 0%,
+            #080808 50%,
+            #1a0805 100%
+        );
+}
+
+.albums-grid {
+    width: min(1200px, 100%);
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 25px;
+}
+
+.album-card {
+    position: relative;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.4s ease;
+}
+
+.album-card:hover {
+    transform: translateY(-15px);
+}
+
+.album-number {
+    position: absolute;
+
+    top: -25px;
+    left: -10px;
+
+    z-index: 3;
+
+    font-family: var(--fuente-titulo);
+
+    font-size: 4rem;
+
+    color: var(--rojo);
+
+    opacity: 0;
+
+    transition: 0.4s;
+}
+
+.album-card:hover .album-number {
+    opacity: 1;
+}
+
+.album-cover {
+    position: relative;
+
+    overflow: hidden;
+
+    aspect-ratio: 1 / 1;
+
+    background: #151515;
+
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.album-cover img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+}
+
+.album-card:hover .album-cover img {
+    transform: scale(1.08);
+    filter: brightness(0.6);
+}
+
+.album-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+
+    transition: opacity 0.4s ease;
+
+    background: rgba(227,38,26,0.15);
+}
+
+.album-card:hover .album-overlay {
+    opacity: 1;
+}
+
+.album-overlay span {
+    padding: 12px 20px;
+
+    border: 1px solid white;
+
+    font-size: 0.7rem;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.album-info {
+    padding-top: 20px;
+}
+
+.album-info span {
+    color: var(--amarillo);
+
+    font-size: 0.7rem;
+
+    letter-spacing: 3px;
+}
+
+.album-info h3 {
+    margin-top: 8px;
+
+    font-family: var(--fuente-titulo);
+
+    font-size: 2rem;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   MÚSICA
+========================================================= */
+
+.musica {
+    background:
+        radial-gradient(
+            circle at 10% 50%,
+            rgba(255, 107, 26, 0.15),
+            transparent 35%
+        ),
+        #090909;
+}
+
+.music-content {
+    width: min(1300px, 100%);
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 0.8fr 1.2fr;
+
+    gap: 80px;
+
+    align-items: center;
+}
+
+.music-text p {
+    max-width: 500px;
+
+    margin-top: 30px;
+
+    color: var(--gris);
+
+    line-height: 1.8;
+}
+
+.spotify-container {
+    overflow: hidden;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 30px 60px rgba(0,0,0,0.5);
+}
+
+
+/* =========================================================
+   CRONOLOGÍA
+========================================================= */
+
+.cronologia {
+    background: var(--negro-suave);
+}
+
+.timeline {
+    position: relative;
+
+    width: min(900px, 100%);
+
+    margin: auto;
+}
+
+.timeline::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 50%;
+
+    width: 2px;
+
+    background:
+        linear-gradient(
+            transparent,
+            var(--rojo),
+            var(--amarillo),
+            var(--rojo),
+            transparent
+        );
+}
+
+.timeline-item {
+    position: relative;
+
+    width: 50%;
+
+    padding: 30px 50px;
+}
+
+.timeline-item:nth-child(odd) {
+    left: 0;
+
+    text-align: right;
+}
+
+.timeline-item:nth-child(even) {
+    left: 50%;
+}
+
+.timeline-dot {
+    position: absolute;
+
+    top: 45px;
+
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: var(--rojo);
+
+    box-shadow:
+        0 0 0 5px rgba(227,38,26,0.15),
+        0 0 25px var(--rojo);
+
+    z-index: 2;
+}
+
+.timeline-item:nth-child(odd) .timeline-dot {
+    right: -7px;
+}
+
+.timeline-item:nth-child(even) .timeline-dot {
+    left: -7px;
+}
+
+.timeline-content {
+    padding: 30px;
+
+    background: #151515;
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    transition: var(--transicion);
+}
+
+.timeline-content:hover {
+    transform: scale(1.03);
+
+    border-color: var(--rojo);
+}
+
+.timeline-content span {
+    color: var(--amarillo);
+
+    font-family: var(--fuente-titulo);
+
+    font-size: 2rem;
+}
+
+.timeline-content h3 {
+    margin: 5px 0 12px;
+
+    font-family: var(--fuente-titulo);
+
+    font-size: 2rem;
+}
+
+.timeline-content p {
+    color: var(--gris);
+
+    font-size: 0.9rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CROMAÑÓN
+========================================================= */
+
+.cromanon {
+    position: relative;
+    min-height: 100vh;
+
+    width: 100%;
+
+    padding: 120px 0;
+
+    display: block;
+
+    overflow: hidden;
+
+    text-align: left;
+
+    color: var(--blanco);
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.78),
+            rgba(30, 5, 5, 0.94)
+        ),
+        url("img/cromanon-01.jpg") center / cover fixed;
+}
+
+
+/* =========================================================
+   FONDO / OVERLAY
+========================================================= */
+
+.cromanon-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        radial-gradient(
+            circle at center,
+            transparent 0%,
+            rgba(0, 0, 0, 0.72) 100%
+        );
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTENIDO PRINCIPAL
+========================================================= */
+
+.cromanon-content {
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1200px, 90%);
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.cromanon .section-title {
+    text-align: center;
+
+    margin-bottom: 80px;
+}
+
+.cromanon .section-number {
+    display: block;
+
+    font-family: var(--fuente-titulo);
+
+    font-size: 1.2rem;
+
+    letter-spacing: 4px;
+
+    color: var(--rojo);
+
+    margin-bottom: 10px;
+}
+
+.cromanon .eyebrow {
+    color: #bdbdbd;
+
+    font-size: 0.75rem;
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 15px;
+}
+
+.cromanon h2 {
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(5rem, 12vw, 11rem);
+
+    line-height: 0.8;
+
+    margin: 0;
+
+    color: var(--blanco);
+
+    text-shadow:
+        5px 5px 0 var(--rojo);
+}
+
+.title-line {
+    width: 100px;
+
+    height: 4px;
+
+    background: var(--rojo);
+
+    margin: 35px auto 0;
+}
+
+
+/* =========================================================
+   INTRODUCCIÓN
+========================================================= */
+
+.cromanon-intro {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        280px;
+
+    gap: 60px;
+
+    align-items: center;
+
+    margin-bottom: 70px;
+}
+
+.cromanon-intro-text {
+    max-width: 750px;
+}
+
+.mini-title {
+    display: inline-block;
+
+    color: var(--rojo);
+
+    font-size: 0.75rem;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 15px;
+}
+
+.cromanon-intro h3 {
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(2rem, 4vw, 3.5rem);
+
+    line-height: 1;
+
+    margin-bottom: 25px;
+}
+
+.cromanon p {
+    color: #d0d0d0;
+
+    line-height: 1.8;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   NÚMERO 194
+========================================================= */
+
+.cromanon-stat {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 250px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    background: rgba(0,0,0,0.35);
+
+    backdrop-filter: blur(8px);
+
+    padding: 30px;
+}
+
+.cromanon-stat span {
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(5rem, 10vw, 8rem);
+
+    line-height: 0.8;
+
+    color: var(--rojo);
+
+    text-shadow: 3px 3px 0 rgba(255,255,255,0.08);
+}
+
+.cromanon-stat p {
+    margin-top: 25px;
+
+    margin-bottom: 0;
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+    font-size: 0.7rem;
+
+    letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   ESTADÍSTICAS
+========================================================= */
+
+.cromanon-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 100px;
+}
+
+.stat-card {
+    min-height: 210px;
+
+    padding: 35px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    background: rgba(10,10,10,0.55);
+
+    backdrop-filter: blur(8px);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+
+    border-color: var(--rojo);
+}
+
+.stat-card > span {
+    display: block;
+
+    font-family: var(--fuente-titulo);
+
+    font-size: 3.5rem;
+
+    color: var(--rojo);
+
+    line-height: 1;
+}
+
+.stat-card small {
+    display: block;
+
+    margin-top: 12px;
+
+    color: var(--blanco);
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.stat-card p {
+    margin-top: 10px;
+
+    margin-bottom: 0;
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   BLOQUES DE INFORMACIÓN
+========================================================= */
+
+.cromanon-block {
+    margin-bottom: 70px;
+
+    padding: 45px;
+
+    border-left: 3px solid var(--rojo);
+
+    background: rgba(0,0,0,0.35);
+
+    backdrop-filter: blur(8px);
+}
+
+.block-heading {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 25px;
+
+    margin-bottom: 25px;
+}
+
+.block-heading > span {
+    font-family: var(--fuente-titulo);
+
+    font-size: 2.5rem;
+
+    color: var(--rojo);
+
+    line-height: 1;
+}
+
+.block-heading h3 {
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(2rem, 4vw, 3.5rem);
+
+    line-height: 1;
+
+    margin: 0;
+}
+
+.block-text {
+    max-width: 900px;
+
+    color: #d0d0d0;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   CONDENAS
+========================================================= */
+
+.condenas-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 100px;
+}
+
+.condena-card {
+    position: relative;
+
+    padding: 35px;
+
+    min-height: 220px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(60, 10, 10, 0.75),
+            rgba(0, 0, 0, 0.65)
+        );
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.condena-card:hover {
+    transform: translateY(-8px);
+
+    border-color: var(--rojo);
+}
+
+.condena-numero {
+    font-family: var(--fuente-titulo);
+
+    font-size: 1rem;
+
+    color: var(--rojo);
+
+    letter-spacing: 2px;
+}
+
+.condena-card h4 {
+    margin-top: 25px;
+
+    margin-bottom: 15px;
+
+    font-size: 1.2rem;
+}
+
+.condena-card strong {
+    display: block;
+
+    font-family: var(--fuente-titulo);
+
+    font-size: 3rem;
+
+    color: var(--blanco);
+}
+
+.condena-card p {
+    font-size: 0.8rem;
+
+    margin-top: 10px;
+}
+
+
+/* =========================================================
+   DESPUÉS DE CROMAÑÓN
+========================================================= */
+
+.bandas-post-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 25px;
+
+    margin-bottom: 80px;
+}
+
+.post-band-card {
+    display: flex;
+
+    gap: 25px;
+
+    padding: 35px;
+
+    background: rgba(0,0,0,0.45);
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.post-band-card:hover {
+    transform: translateY(-7px);
+
+    border-color: var(--rojo);
+}
+
+.post-band-icon {
+    font-size: 2.5rem;
+
+    flex-shrink: 0;
+}
+
+.post-band-card span {
+    font-size: 0.65rem;
+
+    letter-spacing: 2px;
+
+    color: var(--rojo);
+
+    font-weight: 800;
+}
+
+.post-band-card h4 {
+    margin: 8px 0 12px;
+
+    font-size: 1.3rem;
+}
+
+.post-band-card p {
+    font-size: 0.9rem;
+
+    margin: 0;
+}
+
+
+/* =========================================================
+   EDUARDO VÁZQUEZ
+========================================================= */
+
+.eduardo-card {
+    display: grid;
+
+    grid-template-columns: 100px 1fr;
+
+    gap: 35px;
+
+    padding: 50px;
+
+    margin-bottom: 40px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(70,10,10,0.55),
+            rgba(0,0,0,0.55)
+        );
+
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.eduardo-number span {
+    font-family: var(--fuente-titulo);
+
+    font-size: 5rem;
+
+    color: var(--rojo);
+}
+
+.eduardo-content h3,
+.djerfy-card h3 {
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(2.5rem, 5vw, 4rem);
+
+    margin: 5px 0 20px;
+}
+
+.eduardo-note {
+    padding: 20px;
+
+    margin-top: 25px;
+
+    border-left: 2px solid var(--rojo);
+
+    background: rgba(0,0,0,0.3);
+}
+
+
+/* =========================================================
+   MAXIMILIANO DJERFY
+========================================================= */
+
+.djerfy-card {
+    display: flex;
+
+    gap: 30px;
+
+    align-items: flex-start;
+
+    padding: 45px;
+
+    margin-bottom: 100px;
+
+    background: rgba(0,0,0,0.4);
+
+    border-left: 3px solid var(--rojo);
+}
+
+.djerfy-icon {
+    font-size: 2rem;
+
+    color: var(--rojo);
+}
+
+
+/* =========================================================
+   CRONOLOGÍA DE CROMAÑÓN
+========================================================= */
+
+.cromanon-timeline {
+    margin-bottom: 100px;
+}
+
+.timeline-title {
+    margin-bottom: 50px;
+}
+
+.timeline-title h3 {
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(3rem, 7vw, 6rem);
+
+    line-height: 0.9;
+}
+
+.croma-line {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 20px;
+}
+
+.croma-line::before {
+    content: "";
+
+    position: absolute;
+
+    top: 15px;
+    left: 0;
+    right: 0;
+
+    height: 2px;
+
+    background: var(--rojo);
+}
+
+.croma-event {
+    position: relative;
+
+    padding-top: 45px;
+}
+
+.croma-event::before {
+    content: "";
+
+    position: absolute;
+
+    top: 8px;
+    left: 0;
+
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: var(--rojo);
+
+    box-shadow:
+        0 0 0 5px rgba(180,0,0,0.15);
+}
+
+.croma-event span {
+    font-family: var(--fuente-titulo);
+
+    font-size: 2rem;
+
+    color: var(--rojo);
+}
+
+.croma-event p {
+    font-size: 0.85rem;
+
+    margin-top: 10px;
+}
+
+
+/* =========================================================
+   MEMORIA
+========================================================= */
+
+.memoria-cromanon {
+    text-align: center;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    padding-bottom: 40px;
+}
+
+.memoria-cromanon > span {
+    display: block;
+
+    color: var(--rojo);
+
+    font-size: 0.7rem;
+
+    font-weight: 800;
+
+    letter-spacing: 5px;
+
+    margin: 25px 0;
+}
+
+.memoria-cromanon h3 {
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+
+    line-height: 1;
+}
+
+.memoria-cromanon p {
+    max-width: 750px;
+
+    margin: 25px auto;
+
+    color: #cfcfcf;
+
+    line-height: 1.8;
+}
+
+.memoria-line {
+    width: 100%;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--rojo),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.cromanon .reveal {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: none;
+}
+
+.cromanon .reveal.visible {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .cromanon {
+        padding: 90px 0;
+    }
+
+    .cromanon-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .cromanon-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .condenas-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .croma-line {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .croma-line::before {
+        top: 0;
+        bottom: 0;
+        left: 7px;
+
+        width: 2px;
+        height: auto;
+    }
+
+    .croma-event {
+        padding-top: 0;
+        padding-left: 40px;
+    }
+
+    .croma-event::before {
+        top: 5px;
+        left: 0;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .cromanon-content {
+        width: 88%;
+    }
+
+    .cromanon h2 {
+        font-size: 5rem;
+    }
+
+    .cromanon-block {
+        padding: 25px;
+    }
+
+    .condenas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bandas-post-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .post-band-card {
+        flex-direction: column;
+    }
+
+    .eduardo-card {
+        grid-template-columns: 1fr;
+        padding: 30px;
+    }
+
+    .djerfy-card {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+}
+
+
+/* =========================================================
+   FRASES
+========================================================= */
+
+.frases {
+    min-height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0b0b0b,
+            #180706
+        );
+}
+
+.quote-box {
+    width: min(900px, 90%);
+
+    margin: auto;
+
+    padding: 70px 50px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.04),
+            rgba(255,255,255,0.01)
+        );
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.5);
+}
+
+.quote-mark {
+    color: var(--rojo);
+
+    font-family: Georgia, serif;
+
+    font-size: 7rem;
+
+    height: 80px;
+}
+
+#quote-text {
+    min-height: 80px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-family: var(--fuente-titulo);
+
+    font-size: clamp(2rem, 5vw, 4rem);
+
+    line-height: 1;
+
+    margin-bottom: 40px;
+}
+
+
+/* =========================================================
+   DON OSVALDO
+========================================================= */
+
+.don-osvaldo {
+    background:
+        linear-gradient(
+            120deg,
+            #090909,
+            #1b0906
+        );
+}
+
+.don-content {
+    width: min(1200px, 100%);
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    align-items: center;
+
+    gap: 80px;
+}
+
+.don-image {
+    position: relative;
+
+    overflow: hidden;
+}
+
+.don-image::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 20px;
+
+    border: 2px solid var(--rojo);
+
+    z-index: 2;
+
+    pointer-events: none;
+}
+
+.don-image img {
+    width: 100%;
+
+    transition: transform 0.7s ease;
+}
+
+.don-image:hover img {
+    transform: scale(1.05);
+}
+
+.don-text p {
+    max-width: 500px;
+
+    margin: 30px 0;
+
+    color: var(--gris);
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    padding: 70px 20px;
+
+    text-align: center;
+
+    background: #050505;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-logo {
+    font-family: var(--fuente-titulo);
+
+    font-size: 4rem;
+
+    letter-spacing: 3px;
+}
+
+footer p {
+    margin-top: 10px;
+
+    color: var(--gris);
+
+    font-size: 0.8rem;
+
+    letter-spacing: 2px;
+}
+
+.footer-copy {
+    margin-top: 35px;
+
+    color: #555;
+
+    font-size: 0.65rem;
+}
+
+
+/* =========================================================
+   ANIMACIONES AL HACER SCROLL
+========================================================= */
+
+.reveal {
+    opacity: 0;
+
+    transform: translateY(60px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .nav-menu {
+        gap: 15px;
+    }
+
+    .nav-menu a {
+        font-size: 0.65rem;
+    }
+
+    .members-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .albums-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .music-content {
+        grid-template-columns: 1fr;
+    }
+
+    .don-content {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — CELULAR
+========================================================= */
+
+@media (max-width: 700px) {
+
+    body {
+        cursor: auto;
+    }
+
+    .cursor,
+    .cursor-follower {
+        display: none;
+    }
+
+
+    /* NAV */
+
+    .navbar {
+        height: 75px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+
+        top: 75px;
+        left: 0;
+
+        width: 100%;
+
+        padding: 30px;
+
+        background: rgba(8,8,8,0.98);
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 25px;
+
+        transform: translateY(-150%);
+
+        transition: transform 0.4s ease;
+    }
+
+    .nav-menu.active {
+        transform: translateY(0);
+    }
+
+
+    /* HERO */
+
+    .hero h1 {
+        font-size: 5rem;
+
+        text-shadow:
+            4px 4px 0 var(--rojo),
+            8px 8px 0 rgba(0,0,0,0.7);
+    }
+
+    .hero-subtitle {
+        letter-spacing: 3px;
+    }
+
+    .hero-description {
+        font-size: 0.85rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+    .btn {
+        width: min(300px, 90%);
+    }
+
+
+    /* SECCIONES */
+
+    .section {
+        padding: 100px 6%;
+    }
+
+    .section-number {
+        font-size: 7rem;
+    }
+
+
+    /* BANDA */
+
+    .members-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .member-card {
+        min-height: 330px;
+    }
+
+    .member-info h3 {
+        font-size: 1.5rem;
+    }
+
+
+    /* DISCOS */
+
+    .albums-grid {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 15px;
+    }
+
+    .album-info h3 {
+        font-size: 1.5rem;
+    }
+
+
+    /* TIMELINE */
+
+    .timeline::before {
+        left: 10px;
+    }
+
+    .timeline-item,
+    .timeline-item:nth-child(even),
+    .timeline-item:nth-child(odd) {
+        width: 100%;
+
+        left: 0;
+
+        text-align: left;
+
+        padding-left: 45px;
+        padding-right: 0;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-dot,
+    .timeline-item:nth-child(even) .timeline-dot {
+        left: 3px;
+        right: auto;
+    }
+
+
+    /* FRASES */
+
+    .quote-box {
+        padding: 50px 25px;
+    }
+
+
+    /* DON OSVALDO */
+
+    .don-content {
+        gap: 50px;
+    }
+
+}
+
+
+/* =========================================================
+   CELULARES MUY PEQUEÑOS
+========================================================= */
+
+@media (max-width: 450px) {
+
+    .members-grid,
+    .albums-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+    }
+
+    .section-header h2,
+    .intro h2,
+    .music-text h2,
+    .don-text h2 {
+        font-size: 4rem;
+    }
+
+}
+
+/* =========================================================
+   CROMAÑÓN — SECCIÓN EXTENDIDA
+========================================================= */
+
+.cromanon {
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5, 5, 5, 0.97),
+            rgba(15, 5, 5, 0.94),
+            rgba(5, 5, 5, 0.98)
+        ),
+        url("img/cromanon-01.jpg") center / cover fixed;
+    padding: 130px 0;
+}
+
+.cromanon-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(255, 70, 20, 0.12),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(255, 0, 0, 0.10),
+            transparent 40%
+        );
+    pointer-events: none;
+}
+
+.cromanon-content {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* INTRO */
+
+.cromanon-intro {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 80px;
+    align-items: center;
+    margin: 80px 0;
+}
+
+.cromanon-intro-text {
+    max-width: 850px;
+}
+
+.mini-title {
+    display: inline-block;
+    color: var(--red);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.cromanon-intro h3 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(2.3rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    margin-bottom: 30px;
+    max-width: 800px;
+}
+
+.cromanon-intro p,
+.block-text,
+.post-band-card p,
+.eduardo-content p,
+.djerfy-card p,
+.memoria-cromanon p {
+    color: #c9c9c9;
+    line-height: 1.8;
+    margin-bottom: 18px;
+}
+
+
+/* 194 */
+
+.cromanon-stat {
+    border: 1px solid rgba(255,255,255,0.15);
+    border-left: 5px solid var(--red);
+    padding: 35px;
+    text-align: center;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+}
+
+.cromanon-stat span {
+    display: block;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 7rem;
+    line-height: 0.8;
+    color: var(--red);
+}
+
+.cromanon-stat p {
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.75rem;
+    color: white;
+}
+
+
+/* STATS */
+
+.cromanon-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 60px 0 130px;
+}
+
+.stat-card {
+    padding: 40px 30px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.025);
+    transition: 0.4s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--red);
+    background: rgba(180, 20, 20, 0.08);
+}
+
+.stat-card span {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 4rem;
+    color: var(--yellow);
+    display: block;
+}
+
+.stat-card small {
+    letter-spacing: 3px;
+    color: var(--red);
+    font-weight: 800;
+}
+
+.stat-card p {
+    color: #aaa;
+    margin-top: 10px;
+}
+
+
+/* BLOQUES */
+
+.cromanon-block {
+    margin: 100px 0 50px;
+}
+
+.block-heading {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.block-heading > span {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 4rem;
+    color: rgba(255,255,255,0.12);
+}
+
+.block-heading .eyebrow {
+    margin-bottom: 5px;
+}
+
+.block-heading h3 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+.block-text {
+    max-width: 850px;
+    font-size: 1rem;
+}
+
+
+/* CONDENAS */
+
+.condenas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 40px 0 120px;
+}
+
+.condena-card {
+    position: relative;
+    padding: 35px;
+    min-height: 230px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    transition: 0.4s ease;
+}
+
+.condena-card::after {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    right: -30px;
+    bottom: -30px;
+    background: var(--red);
+    opacity: 0.08;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+.condena-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--red);
+}
+
+.condena-card:hover::after {
+    transform: scale(2);
+}
+
+.condena-numero {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--red);
+}
+
+.condena-card h4 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.8rem;
+    margin: 25px 0 5px;
+}
+
+.condena-card strong {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 3rem;
+    color: var(--yellow);
+}
+
+.condena-card p {
+    color: #999;
+    font-size: 0.8rem;
+    margin-top: 8px;
+}
+
+
+/* BANDAS POST */
+
+.bandas-post-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin: 45px 0 100px;
+}
+
+.post-band-card {
+    display: flex;
+    gap: 25px;
+    padding: 40px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.015)
+    );
+    transition: 0.4s ease;
+}
+
+.post-band-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--yellow);
+}
+
+.post-band-icon {
+    font-size: 2.5rem;
+}
+
+.post-band-card span {
+    color: var(--red);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.post-band-card h4 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2.3rem;
+    margin: 8px 0 15px;
+}
+
+
+/* EDUARDO */
+
+.eduardo-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 35px;
+    padding: 50px;
+    margin: 70px 0;
+    border: 1px solid rgba(255, 180, 0, 0.3);
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 170, 0, 0.07),
+            rgba(255,255,255,0.02)
+        );
+}
+
+.eduardo-number {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.eduardo-number span {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 5rem;
+    color: var(--yellow);
+}
+
+.eduardo-content h3 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.eduardo-note {
+    padding: 18px;
+    border-left: 3px solid var(--yellow);
+    background: rgba(255, 180, 0, 0.06);
+    font-size: 0.9rem;
+}
+
+
+/* DJERFY */
+
+.djerfy-card {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    padding: 45px;
+    margin: 70px 0;
+    border-left: 4px solid var(--red);
+    background: rgba(255,255,255,0.025);
+}
+
+.djerfy-icon {
+    font-size: 2rem;
+    color: var(--red);
+}
+
+.djerfy-card h3 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+}
+
+
+/* TIMELINE */
+
+.cromanon-timeline {
+    margin: 130px 0;
+}
+
+.timeline-title {
+    margin-bottom: 70px;
+}
+
+.timeline-title h3 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 4rem;
+}
+
+.croma-line {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.croma-line::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(255,255,255,0.15);
+}
+
+.croma-event {
+    position: relative;
+    width: 18%;
+    padding-top: 40px;
+}
+
+.croma-event::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 17px;
+    height: 17px;
+    background: var(--red);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255,0,0,0.5);
+}
+
+.croma-event span {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2rem;
+    color: var(--yellow);
+}
+
+.croma-event p {
+    color: #999;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+
+/* MEMORIA */
+
+.memoria-cromanon {
+    text-align: center;
+    max-width: 850px;
+    margin: 120px auto 20px;
+}
+
+.memoria-cromanon span {
+    color: var(--red);
+    letter-spacing: 5px;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.memoria-cromanon h3 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    margin: 25px 0;
+}
+
+.memoria-cromanon p {
+    max-width: 700px;
+    margin: 0 auto 35px;
+}
+
+.memoria-line {
+    width: 100px;
+    height: 2px;
+    background: var(--red);
+    margin: 30px auto;
+}
+
+
+/* RESPONSIVE CROMAÑÓN */
+
+@media (max-width: 900px) {
+
+    .cromanon-intro {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .cromanon-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .condenas-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .bandas-post-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .croma-line {
+        flex-direction: column;
+        gap: 35px;
+    }
+
+    .croma-line::before {
+        width: 2px;
+        height: 100%;
+        left: 7px;
+        top: 0;
+    }
+
+    .croma-event {
+        width: 100%;
+        padding-left: 40px;
+        padding-top: 0;
+    }
+
+    .croma-event::before {
+        left: 0;
+        top: 2px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .cromanon {
+        padding: 90px 0;
+    }
+
+    .condenas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .eduardo-card {
+        grid-template-columns: 1fr;
+        padding: 30px;
+    }
+
+    .eduardo-number {
+        justify-content: flex-start;
+    }
+
+    .post-band-card {
+        padding: 30px;
+        flex-direction: column;
+    }
+
+    .djerfy-card {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .cromanon-intro h3 {
+        font-size: 2.6rem;
+    }
+
+}
+
+/* =========================================================
+   MODAL DE ÁLBUMES
+========================================================= */
+
+.album-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.85);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: 0.3s ease;
+
+    z-index: 9999;
+
+}
+
+.album-modal.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+.album-modal-content {
+
+    position: relative;
+
+    width: min(900px, 95%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #111;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    display: grid;
+
+    grid-template-columns: 300px 1fr;
+
+    gap: 35px;
+
+    padding: 35px;
+
+    transform: translateY(30px);
+
+    transition: 0.3s ease;
+
+}
+
+
+.album-modal.active .album-modal-content {
+
+    transform: translateY(0);
+
+}
+
+
+.album-modal-image img {
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+
+    display: block;
+
+}
+
+
+.album-modal-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+}
+
+
+#modal-album-year {
+
+    color: #aaa;
+
+    font-size: 0.9rem;
+
+    letter-spacing: 3px;
+
+}
+
+
+#modal-album-title {
+
+    margin: 8px 0 20px;
+
+    font-size: 2.5rem;
+
+}
+
+
+#modal-album-description {
+
+    color: #ccc;
+
+    line-height: 1.7;
+
+}
+
+
+.tracklist {
+
+    margin-top: 25px;
+
+}
+
+
+.tracklist h3 {
+
+    font-size: 0.9rem;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 12px;
+
+}
+
+
+#modal-tracklist {
+
+    margin: 0;
+
+    padding-left: 20px;
+
+    color: #bbb;
+
+    line-height: 1.8;
+
+}
+
+
+/* BOTÓN CERRAR */
+
+.close-album-modal {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 18px;
+
+    width: 40px;
+
+    height: 40px;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 2rem;
+
+    cursor: pointer;
+
+    z-index: 2;
+
+    transition: 0.2s ease;
+
+}
+
+
+.close-album-modal:hover {
+
+    transform: rotate(90deg);
+
+}
+
+
+/* CURSOR SOBRE LAS TARJETAS */
+
+.album-card {
+
+    cursor: pointer;
+
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+
+    .album-modal-content {
+
+        grid-template-columns: 1fr;
+
+        padding: 25px;
+
+    }
+
+    .album-modal-image {
+
+        max-width: 280px;
+
+        margin: auto;
+
+    }
+
+    #modal-album-title {
+
+        font-size: 2rem;
+
+    }
+
+}
+
+/* ==========================================
+   DISCOS - PORTADAS
+========================================== */
+
+.albums-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.album-card {
+    cursor: pointer;
+    min-width: 0;
+}
+
+.album-cover {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    background: #202020;
+}
+
+.album-cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+.album-card:hover .album-cover img {
+    transform: scale(1.06);
+}
+
+.album-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.album-card:hover .album-overlay,
+.album-card:focus-within .album-overlay {
+    opacity: 1;
+}
+
+.album-overlay span {
+    color: white;
+    border: 1px solid white;
+    padding: 12px 18px;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+}
+
+.album-number {
+    margin-bottom: 10px;
+    color: #999;
+    font-size: 0.8rem;
+}
+
+.album-info {
+    padding-top: 14px;
+}
+
+.album-info > span {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.album-info h3 {
+    margin-top: 6px;
+    font-size: 1.1rem;
+}
+
+/* ==========================================
+   MODAL
+========================================== */
+
+.album-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.album-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.album-modal-box {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(180px, 300px) minmax(0, 1fr);
+    align-items: center;
+    gap: 30px;
+    width: min(850px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 35px;
+    background: #151515;
+    color: white;
+    border: 1px solid #383838;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.album-modal.active .album-modal-box {
+    transform: translateY(0);
+}
+
+#modal-album-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: #222;
+}
+
+.album-modal-text h2 {
+    margin: 10px 0 20px;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+}
+
+#modal-album-year {
+    color: #aaa;
+    letter-spacing: 3px;
+}
+
+#modal-album-description {
+    color: #ccc;
+    line-height: 1.8;
+}
+
+.album-note {
+    margin-top: 20px;
+    color: #999;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.album-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.album-close:hover {
+    color: #ccc;
+}
+
+@media (max-width: 900px) {
+    .albums-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .album-modal-box {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 25px;
+    }
+
+    #modal-album-image {
+        width: min(240px, 100%);
+        margin: 0 auto;
+    }
+
+    .album-modal-text h2 {
+        font-size: 1.8rem;
+    }
+}
+
+
+/* MODAL DE ÁLBUMES */
+
+.album-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.85);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    overflow-y: auto;
+}
+
+.album-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.album-modal-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    width: min(800px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+
+    background: #151515;
+    color: #fff;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+}
+
+#modal-album-image {
+    display: block;
+    width: 42%;
+    max-width: 300px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.album-modal-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.album-modal-text h2 {
+    margin: 10px 0;
+}
+
+.album-modal-text p {
+    line-height: 1.7;
+}
+
+.album-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+
+    border: none;
+    background: transparent;
+    color: #fff;
+
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.album-close:hover {
+    color: #ff5757;
+}
+
+#modal-tracklist {
+    padding-left: 22px;
+    line-height: 1.8;
+}
+
+.album-note {
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    .album-modal-box {
+        flex-direction: column;
+        gap: 20px;
+        padding: 45px 20px 25px;
+    }
+
+    #modal-album-image {
+        width: 100%;
+        max-width: 240px;
+    }
+
+    .album-modal-text {
+        width: 100%;
+    }
+}
+
+.album-curiosity {
+    margin-top: 20px;
+    padding: 15px;
+    border-left: 3px solid #b22222;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 0 8px 8px 0;
+}
+
+.album-curiosity h3 {
+    margin: 0 0 8px;
+    color: #e45b5b;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.album-curiosity p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MODAL DE ÁLBUMES — ESTÉTICA ROCK NACIONAL
+========================================================= */
+
+.album-modal {
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+    padding: 20px;
+}
+
+.album-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.album-modal-box {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(200px, 0.85fr) minmax(0, 1.15fr);
+    align-items: start;
+    gap: 30px;
+
+    width: min(950px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+
+    padding: 35px;
+    border: 1px solid rgba(210, 48, 48, 0.45);
+    border-radius: 16px;
+
+    background:
+        radial-gradient(ellipse at top left, rgba(140, 20, 20, 0.18), transparent 50%),
+        #111;
+
+    color: #f5f5f5;
+    box-shadow: 0 25px 90px rgba(0, 0, 0, 0.8);
+
+    animation: albumEntrada 0.35s ease both;
+}
+
+@keyframes albumEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#modal-album-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#modal-album-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(180, 25, 25, 0.2);
+}
+
+.album-modal-text {
+    min-width: 0;
+}
+
+#modal-album-year {
+    display: inline-block;
+    color: #f06464;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+}
+
+#modal-album-title {
+    margin: 10px 0 18px;
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    line-height: 1.1;
+    letter-spacing: 1px;
+    overflow-wrap: anywhere;
+}
+
+#modal-album-description {
+    color: #c9c9c9;
+    line-height: 1.85;
+    white-space: normal;
+}
+
+.album-modal-text h3 {
+    margin-top: 25px;
+    margin-bottom: 12px;
+    color: #f06464;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+#modal-tracklist {
+    padding-left: 25px;
+    color: #e3e3e3;
+    line-height: 1.9;
+}
+
+#modal-tracklist li {
+    padding-left: 5px;
+    transition: color 0.2s ease;
+}
+
+#modal-tracklist li:hover {
+    color: #ff7777;
+}
+
+.album-curiosity {
+    margin-top: 22px;
+    padding: 17px;
+    border-left: 3px solid #d93636;
+    border-radius: 0 8px 8px 0;
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.album-curiosity h3 {
+    margin: 0 0 10px;
+    color: #ff7070;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+}
+
+.album-curiosity p {
+    margin: 0;
+    color: #dedede;
+    line-height: 1.75;
+}
+
+.album-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 2;
+
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.album-close:hover {
+    background: #b82020;
+    transform: rotate(90deg);
+}
+
+/* SPOTIFY */
+
+.album-spotify {
+    margin-top: 25px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.album-spotify h3 {
+    margin-top: 0;
+}
+
+#modal-spotify-player {
+    display: block;
+    width: 100%;
+    min-height: 152px;
+    margin-top: 12px;
+    border: 0;
+    border-radius: 12px;
+    background: #181818;
+}
+
+#modal-spotify-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    margin-top: 12px;
+    padding: 12px 18px;
+
+    border-radius: 30px;
+    background: #1ed760;
+    color: #101010;
+
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-decoration: none;
+
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#modal-spotify-link:hover {
+    background: #65ed91;
+    transform: translateY(-2px);
+}
+
+.album-note {
+    color: #999;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+/* CELULARES */
+
+@media (max-width: 650px) {
+    .album-modal {
+        padding: 10px;
+    }
+
+    .album-modal-box {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+        padding: 55px 20px 25px;
+        max-height: 94vh;
+    }
+
+    #modal-album-image {
+        width: min(100%, 270px);
+        margin: 0 auto;
+    }
+
+    #modal-album-title {
+        font-size: 1.7rem;
+    }
+}
+/* ========================================
+   INICIO - CALLEJEROS
+======================================== */
+
+.hero {
+    position: relative;
+    min-height: 90vh;
+    min-height: 90svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+    padding: 110px 7% 90px;
+    color: #fff;
+    background:
+        radial-gradient(
+            ellipse at 15% 45%,
+            rgba(190, 15, 28, 0.27),
+            transparent 42%
+        ),
+        radial-gradient(
+            ellipse at 90% 15%,
+            rgba(120, 0, 10, 0.20),
+            transparent 35%
+        ),
+        linear-gradient(
+            120deg,
+            #050505 0%,
+            #111 55%,
+            #050505 100%
+        );
+}
+
+/* Textura y luces del fondo */
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.22;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(255, 255, 255, 0.035) 4px
+        );
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.35),
+            transparent 70%
+        ),
+        linear-gradient(
+            0deg,
+            #050505 0%,
+            transparent 25%,
+            transparent 80%,
+            rgba(0, 0, 0, 0.45)
+        );
+}
+
+.hero-content {
+    width: 100%;
+    max-width: 1100px;
+    animation: heroAppear 1s ease both;
+}
+
+.hero-eyebrow {
+    color: #f0444b;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.32em;
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    margin: 0;
+    font-family: "Bebas Neue", Impact, sans-serif;
+    font-size: clamp(4rem, 12vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: 0.015em;
+    overflow-wrap: anywhere;
+    text-shadow: 0 0 35px rgba(200, 20, 30, 0.16);
+}
+
+.hero-title span {
+    color: #e32636;
+    text-shadow: 0 0 24px rgba(227, 38, 54, 0.55);
+}
+
+.hero-divider {
+    width: 95px;
+    height: 4px;
+    margin: 28px 0 22px;
+    background: #e32636;
+    box-shadow: 0 0 16px rgba(227, 38, 54, 0.5);
+}
+
+.hero-subtitle {
+    color: #e4e4e4;
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+}
+
+.hero-subtitle span {
+    color: #e32636;
+    padding: 0 5px;
+}
+
+.hero-description {
+    color: #aaa;
+    font-size: 1.05rem;
+    margin: 20px 0 32px;
+}
+
+.hero-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 22px;
+    padding: 16px 22px;
+    border: 1px solid #c51f2b;
+    background: rgba(160, 10, 20, 0.12);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.hero-button span {
+    color: #f0444b;
+    font-size: 1.2rem;
+}
+
+.hero-button:hover {
+    background: #b51d28;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(200, 20, 30, 0.25);
+}
+
+.hero-button:hover span {
+    color: #fff;
+}
+
+.hero-bottom {
+    position: absolute;
+    bottom: 25px;
+    left: 7%;
+    right: 7%;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    color: #777;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+}
+
+.hero-scroll {
+    color: #bbb;
+}
+
+@keyframes heroAppear {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Adaptación a celulares */
+
+@media (max-width: 600px) {
+    .hero {
+        min-height: 82svh;
+        padding: 100px 6% 100px;
+    }
+
+    .hero-eyebrow {
+        font-size: 0.68rem;
+        letter-spacing: 0.18em;
+    }
+
+    .hero-title {
+        font-size: clamp(3.4rem, 15vw, 6rem);
+    }
+
+    .hero-subtitle {
+        letter-spacing: 0.1em;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+    }
+
+    .hero-bottom {
+        left: 6%;
+        right: 6%;
+        font-size: 0.55rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-content {
+        animation: none;
+    }
+
+    .hero-button {
+        transition: none;
+    }
+}
